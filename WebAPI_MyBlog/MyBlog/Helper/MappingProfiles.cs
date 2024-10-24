@@ -10,6 +10,10 @@ namespace MyBlog.Helper
         {
             CreateMap<Category, CategoryDto>();
             CreateMap<CategoryDto, Category>();
+            CreateMap<User, UserDto>();
+            CreateMap<UserDto, User>();
+            CreateMap<UserToCreateDto, User>();
+            CreateMap<User, UserToCreateDto> ();
         }
     }
 }

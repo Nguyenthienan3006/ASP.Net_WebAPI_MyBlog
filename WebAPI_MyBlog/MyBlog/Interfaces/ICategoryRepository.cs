@@ -7,7 +7,6 @@ namespace MyBlog.Interfaces
     {
         ICollection<Category> GetCategories();
         Category GetCategory(int categoryId);
-        ICollection<Post> GetPostByCategory(int categoryId);
         bool CategoryExist(int categoryId);
         bool CreateCategory(Category category);
         bool UpdateCategory(Category category);

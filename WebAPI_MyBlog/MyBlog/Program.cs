@@ -22,7 +22,7 @@ namespace MyBlog
             builder.Services.AddSwaggerGen();
 
             builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
-
+            builder.Services.AddScoped<IUserRepository, UserRepository>();
 
             builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 

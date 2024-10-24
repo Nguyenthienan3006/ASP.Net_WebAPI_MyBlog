@@ -40,11 +40,6 @@ namespace MyBlog.Repository
             return _context.Categories.Where(c => c.Id == categoryId).FirstOrDefault();
         }
 
-        public ICollection<Post> GetPostByCategory(int categoryId)
-        {
-            return _context.PostCategories.Where(p => p.CategoryId == categoryId).Select(p => p.Post).ToList();
-        }
-
         public bool Save()
         {
             var saved = _context.SaveChanges();
