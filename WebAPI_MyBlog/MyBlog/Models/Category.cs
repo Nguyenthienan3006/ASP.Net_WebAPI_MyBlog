@@ -7,12 +7,12 @@ namespace MyBlog.Models
     {
         public Category()
         {
-            Posts = new HashSet<Post>();
+            PostCategories = new HashSet<PostCategory>();
         }
 
         public int Id { get; set; }
         public string Name { get; set; } = null!;
 
-        public virtual ICollection<Post> Posts { get; set; }
+        public virtual ICollection<PostCategory> PostCategories { get; set; }
     }
 }

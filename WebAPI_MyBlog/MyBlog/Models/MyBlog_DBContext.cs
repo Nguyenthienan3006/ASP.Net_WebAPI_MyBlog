@@ -7,8 +7,14 @@ namespace MyBlog.Models
 {
     public partial class MyBlog_DBContext : DbContext
     {
+        //public static MyBlog_DBContext Instance = new MyBlog_DBContext();
         public MyBlog_DBContext()
         {
+            //if (Instance == null)
+            //{
+            //    Instance = this;
+            //} 
+                
         }
 
         public MyBlog_DBContext(DbContextOptions<MyBlog_DBContext> options)
@@ -19,6 +25,7 @@ namespace MyBlog.Models
         public virtual DbSet<Category> Categories { get; set; } = null!;
         public virtual DbSet<Comment> Comments { get; set; } = null!;
         public virtual DbSet<Post> Posts { get; set; } = null!;
+        public virtual DbSet<PostCategory> PostCategories { get; set; } = null!;
         public virtual DbSet<User> Users { get; set; } = null!;
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -73,23 +80,35 @@ namespace MyBlog.Models
                     .WithMany(p => p.Posts)
                     .HasForeignKey(d => d.UsersId)
                     .HasConstraintName("FK__Posts__Users_Id__267ABA7A");
+            });
 
-                entity.HasMany(d => d.Categories)
-                    .WithMany(p => p.Posts)
-                    .UsingEntity<Dictionary<string, object>>(
-                        "PostCategory",
-                        l => l.HasOne<Category>().WithMany().HasForeignKey("CategoryId").OnDelete(DeleteBehavior.ClientSetNull).HasConstraintName("FK__PostCateg__Categ__3D5E1FD2"),
-                        r => r.HasOne<Post>().WithMany().HasForeignKey("PostId").OnDelete(DeleteBehavior.ClientSetNull).HasConstraintName("FK__PostCateg__Post___3C69FB99"),
-                        j =>
-                        {
-                            j.HasKey("PostId", "CategoryId").HasName("PK__PostCate__AEAECF7B53643F80");
+            modelBuilder.Entity<PostCategory>(entity =>
+            {
+                entity.HasKey(e => new { e.PostId, e.CategoryId })
+                    .HasName("PK__PostCate__AEAECF7B53643F80");
 
-                            j.ToTable("PostCategory");
+                entity.ToTable("PostCategory");
 
-                            j.IndexerProperty<int>("PostId").HasColumnName("Post_Id");
+                entity.Property(e => e.PostId).HasColumnName("Post_Id");
 
-                            j.IndexerProperty<int>("CategoryId").HasColumnName("Category_Id");
-                        });
+                entity.Property(e => e.CategoryId).HasColumnName("Category_Id");
+
+                entity.Property(e => e.CreatedAt)
+                    .HasColumnType("datetime")
+                    .HasColumnName("Created_at")
+                    .HasDefaultValueSql("(getdate())");
+
+                entity.HasOne(d => d.Category)
+                    .WithMany(p => p.PostCategories)
+                    .HasForeignKey(d => d.CategoryId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK__PostCateg__Categ__3D5E1FD2");
+
+                entity.HasOne(d => d.Post)
+                    .WithMany(p => p.PostCategories)
+                    .HasForeignKey(d => d.PostId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK__PostCateg__Post___3C69FB99");
             });
 
             modelBuilder.Entity<User>(entity =>

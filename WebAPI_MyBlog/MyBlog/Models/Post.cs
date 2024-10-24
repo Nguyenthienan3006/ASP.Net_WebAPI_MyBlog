@@ -8,7 +8,7 @@ namespace MyBlog.Models
         public Post()
         {
             Comments = new HashSet<Comment>();
-            Categories = new HashSet<Category>();
+            PostCategories = new HashSet<PostCategory>();
         }
 
         public int Id { get; set; }
@@ -19,7 +19,6 @@ namespace MyBlog.Models
 
         public virtual User Users { get; set; } = null!;
         public virtual ICollection<Comment> Comments { get; set; }
-
-        public virtual ICollection<Category> Categories { get; set; }
+        public virtual ICollection<PostCategory> PostCategories { get; set; }
     }
 }

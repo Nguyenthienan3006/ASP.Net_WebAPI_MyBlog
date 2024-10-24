@@ -2,10 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.VisualBasic;
+using MyBlog.Dto;
+using MyBlog.Interfaces;
 using MyBlog.Models;
+
 
 namespace MyBlog.Controllers
 {
@@ -13,111 +18,152 @@ namespace MyBlog.Controllers
     [ApiController]
     public class CategoriesController : ControllerBase
     {
-        private readonly MyBlog_DBContext _context;
+        private readonly ICategoryRepository _categoryRepository;
+        private readonly IMapper _mapper;
 
-        public CategoriesController(MyBlog_DBContext context)
+        public CategoriesController(ICategoryRepository categoryRepository, IMapper mapper)
         {
-            _context = context;
+            _categoryRepository = categoryRepository;
+            _mapper = mapper;
         }
 
-        // GET: api/Categories
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Category>>> GetCategories()
+        [ProducesResponseType(200, Type = typeof(IEnumerable<Category>))]
+        public IActionResult GetCategories()
         {
-          if (_context.Categories == null)
-          {
-              return NotFound();
-          }
-            return await _context.Categories.ToListAsync();
+            if(!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            if(_categoryRepository.GetCategories().Count() <= 0)
+            {
+                return NotFound("There is no category!");
+            }
+
+            var categories = _mapper.Map<List<CategoryDto>>(_categoryRepository.GetCategories());
+
+            return Ok(categories);
         }
 
-        // GET: api/Categories/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Category>> GetCategory(int id)
+        [HttpGet("category/{cateId}")]
+        [ProducesResponseType(200, Type = typeof(Category))]
+        [ProducesResponseType(400)]
+        public IActionResult GetCategory(int cateId)
         {
-          if (_context.Categories == null)
-          {
-              return NotFound();
-          }
-            var category = await _context.Categories.FindAsync(id);
-
-            if (category == null)
+            if(!_categoryRepository.CategoryExist(cateId))
             {
                 return NotFound();
             }
 
-            return category;
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var categoryMapped = _mapper.Map<CategoryDto>(_categoryRepository.GetCategory(cateId));
+
+            return Ok(categoryMapped);
         }
 
-        // PUT: api/Categories/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutCategory(int id, Category category)
-        {
-            if (id != category.Id)
-            {
-                return BadRequest();
-            }
-
-            _context.Entry(category).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!CategoryExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return NoContent();
-        }
-
-        // POST: api/Categories
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Category>> PostCategory(Category category)
+        [ProducesResponseType(400)]
+        [ProducesResponseType(204)]
+        public IActionResult CreateCategory([FromBody] CategoryDto categoryToAdd)
         {
-          if (_context.Categories == null)
-          {
-              return Problem("Entity set 'MyBlog_DBContext.Categories'  is null.");
-          }
-            _context.Categories.Add(category);
-            await _context.SaveChangesAsync();
+            if(categoryToAdd == null)
+            {
+                return BadRequest(ModelState);
+            }
 
-            return CreatedAtAction("GetCategory", new { id = category.Id }, category);
+            var categoryExist = _categoryRepository.GetCategories().
+                Where(c => c.Name.Trim().ToLower() == categoryToAdd.Name.TrimEnd().ToLower()).FirstOrDefault();
+                
+            if(categoryExist != null)
+            {
+                ModelState.AddModelError("", "Category already exists!");
+                return StatusCode(500, ModelState);
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var categoryMapped = _mapper.Map<Category>(categoryToAdd);
+
+            if (!_categoryRepository.CreateCategory(categoryMapped))
+            {
+                ModelState.AddModelError("", "Something went wrong while saving!");
+                return StatusCode(500, ModelState);
+            }
+
+            return Ok("Create successfully");
         }
 
-        // DELETE: api/Categories/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteCategory(int id)
+        [HttpPut("{cateId}")]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(404)]
+        public IActionResult UpdateCategory(int cateId, [FromBody] CategoryDto categoryToUpdate)
         {
-            if (_context.Categories == null)
+            if(categoryToUpdate == null)
+            {
+                return BadRequest(ModelState);
+            }
+
+            if (cateId != categoryToUpdate.Id)
+            {
+                return BadRequest(ModelState);
+            }
+
+            if (!_categoryRepository.CategoryExist(cateId))
             {
                 return NotFound();
             }
-            var category = await _context.Categories.FindAsync(id);
-            if (category == null)
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var categoryMapped = _mapper.Map<Category>(categoryToUpdate);
+
+            if (!_categoryRepository.UpdateCategory(categoryMapped))
+            {
+                ModelState.AddModelError("", "Something went wrong while saving!");
+                return StatusCode(500, ModelState);
+            }
+
+            return Ok("Update successfully");
+        }
+
+        [HttpDelete("{cateId}")]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(404)]
+        public IActionResult DeleteCategory(int cateId) 
+        {
+            if (!_categoryRepository.CategoryExist(cateId))
             {
                 return NotFound();
             }
 
-            _context.Categories.Remove(category);
-            await _context.SaveChangesAsync();
+            if(!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
 
-            return NoContent();
+            var categoryToDelete = _categoryRepository.GetCategory(cateId);
+
+            if (!_categoryRepository.DeleteCategory(categoryToDelete))
+            {
+                ModelState.AddModelError("", "Something went wrong deleting category");
+                return StatusCode(500, ModelState);
+            }
+
+            return Ok("Delete Successfully");
         }
 
-        private bool CategoryExists(int id)
-        {
-            return (_context.Categories?.Any(e => e.Id == id)).GetValueOrDefault();
-        }
     }
 }
