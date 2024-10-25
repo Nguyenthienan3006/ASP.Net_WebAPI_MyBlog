@@ -1,8 +1,10 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis.Scripting;
 using Microsoft.IdentityModel.Tokens;
 using MyBlog.Dto;
+using MyBlog.Handlers;
 using MyBlog.Interfaces;
 using MyBlog.Models;
 using System.IdentityModel.Tokens.Jwt;
@@ -14,6 +16,7 @@ namespace MyBlog.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [AllowAnonymous]
     public class AuthController : ControllerBase
     {
         private readonly IConfiguration _configuration;
@@ -43,8 +46,8 @@ namespace MyBlog.Controllers
             }
 
             // Mã hóa mật khẩu
-            CreatePasswordHash(registerDto.Password, out byte[] passwordHash, out byte[] passwordSalt);
-            
+            PasswordHashHandler.CreatePasswordHash(registerDto.Password, out byte[] passwordHash, out byte[] passwordSalt);
+
 
             // Tạo người dùng mới
             var user = new User
@@ -52,13 +55,13 @@ namespace MyBlog.Controllers
                 UserName = registerDto.Username,
                 PasswordHash = passwordHash,
                 PasswordSalt = passwordSalt,
-                CreatedAt = DateTime.UtcNow              
+                CreatedAt = DateTime.UtcNow
             };
 
             // Lưu người dùng vào cơ sở dữ liệu
             if (!_userRepository.CreateUser(user))
             {
-                
+
                 return StatusCode(500, "An error occurred while creating the user");
             }
 
@@ -78,7 +81,7 @@ namespace MyBlog.Controllers
 
             // Kiểm tra người dùng có tồn tại
             var user = _userRepository.GetUserByName(loginDto.Username);
-            if (user == null || !VerifyPasswordHash(loginDto.Password, user.PasswordHash, user.PasswordSalt))
+            if (user == null || !PasswordHashHandler.VerifyPasswordHash(loginDto.Password, user.PasswordHash, user.PasswordSalt))
             {
                 return Unauthorized("Invalid username or password");
             }
@@ -92,42 +95,31 @@ namespace MyBlog.Controllers
         // Phương thức tạo JWT token
         private string GenerateJwtToken(User user)
         {
-            List<Claim> claims = new List<Claim>
+            var issuer = _configuration["Jwt:Issuer"];
+            var audience = _configuration["Jwt:Audience"];
+            var key = _configuration["Jwt:Key"];
+            var tokenValidityMins = _configuration.GetValue<int>("Jwt:TokenValidityMins");
+            var tokenExpiryTimeStamp = DateTime.UtcNow.AddMinutes(tokenValidityMins);
+
+            var tokenDescriptor = new SecurityTokenDescriptor
             {
-                new Claim(ClaimTypes.Name, user.UserName)
+                Subject = new ClaimsIdentity(new[]
+                {
+                    new Claim(JwtRegisteredClaimNames.Name, user.UserName)
+                }),
+                Issuer = issuer,
+                Expires = tokenExpiryTimeStamp,
+                Audience = audience,
+                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(Encoding.ASCII.GetBytes(key)),
+                SecurityAlgorithms.HmacSha512Signature),
             };
 
-            var key = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(_configuration.GetSection("Jwt:Key").Value));
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var securityToken = tokenHandler.CreateToken(tokenDescriptor);
+            var accessToken = tokenHandler.WriteToken(securityToken);
 
-            var cred = new SigningCredentials(key, SecurityAlgorithms.HmacSha512);
+            return accessToken;
 
-            var token = new JwtSecurityToken(
-                claims: claims,
-                expires: DateTime.Now.AddMinutes(30),
-                signingCredentials: cred
-                );
-
-            var jwt = new JwtSecurityTokenHandler().WriteToken(token);
-
-            return jwt;
-        }
-
-        private void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)
-        {
-            using (var hmac = new HMACSHA512())
-            {
-                passwordSalt = hmac.Key;
-                passwordHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
-            }
-        }
-
-        private bool VerifyPasswordHash(string password, byte[] passwordHash, byte[] passwordSalt)
-        {
-            using (var hmac = new HMACSHA512(passwordSalt))
-            {
-                var computedHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
-                return computedHash.SequenceEqual(passwordHash);
-            }
         }
     }
 

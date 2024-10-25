@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -17,6 +18,7 @@ namespace MyBlog.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class CategoriesController : ControllerBase
     {
         private readonly ICategoryRepository _categoryRepository;
@@ -47,6 +49,7 @@ namespace MyBlog.Controllers
             return Ok(postMapped);
         }
 
+ 
         [HttpGet]
         [ProducesResponseType(200, Type = typeof(IEnumerable<Category>))]
         public IActionResult GetCategories()
