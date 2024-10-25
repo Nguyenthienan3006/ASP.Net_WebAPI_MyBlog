@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using MyBlog.Dto;
 using MyBlog.Interfaces;
 using MyBlog.Models;
+using MyBlog.Repository;
 
 namespace MyBlog.Controllers
 {
@@ -54,39 +55,26 @@ namespace MyBlog.Controllers
             return Ok(userMapped);
         }
 
-        [HttpPost]
-        [ProducesResponseType(204)]
+        [HttpGet("{userId}/posts")]
+        [ProducesResponseType(200, Type = typeof(Post))]
         [ProducesResponseType(400)]
-        public IActionResult CreateUser([FromBody] UserToCreateDto userToCreate)
+        public IActionResult GetPostByUserId(int userId)
         {
-            if(userToCreate == null)
+            if (!_userRepository.UserExist(userId))
             {
-                return BadRequest(ModelState);
+                return NotFound("User not found!");
             }
-            
-            var userExist = _userRepository.GetUsers().
-                Where(u => u.UserName.Trim().ToLower() == userToCreate.UserName.TrimEnd().ToLower()).FirstOrDefault();
 
-            if (userExist != null)
-            {
-                ModelState.AddModelError("", "User already exists!");
-                return StatusCode(422, ModelState);
-            }
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var userMapped = _mapper.Map<User>(userToCreate);
+            var postMapped = _mapper.Map<List<PostDto>>(_userRepository.GetPostByUserId(userId));
 
-            if (!_userRepository.CreateUser(userMapped))
-            {
-                ModelState.AddModelError("", "Something went wrong while saving!");
-                return StatusCode(500, ModelState);
-            }
-
-            return Ok("Create Successfully");
+            return Ok(postMapped);
         }
+
 
         [HttpPut("{userId}")]
         [ProducesResponseType(400)]

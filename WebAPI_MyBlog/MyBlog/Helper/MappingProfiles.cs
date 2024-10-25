@@ -14,6 +14,10 @@ namespace MyBlog.Helper
             CreateMap<UserDto, User>();
             CreateMap<UserToCreateDto, User>();
             CreateMap<User, UserToCreateDto> ();
+            CreateMap<Post, PostDto>();
+            CreateMap<PostDto, Post>();
+            CreateMap<CommentDto, Comment>();
+            CreateMap<Comment, CommentDto>();
         }
     }
 }

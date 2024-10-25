@@ -6,7 +6,9 @@ namespace MyBlog.Interfaces
     public interface ICategoryRepository
     {
         ICollection<Category> GetCategories();
+        ICollection<Post> GetPostByCategoryId(int categoryId);
         Category GetCategory(int categoryId);
+
         bool CategoryExist(int categoryId);
         bool CreateCategory(Category category);
         bool UpdateCategory(Category category);

@@ -14,7 +14,7 @@ namespace MyBlog.Models
             //{
             //    Instance = this;
             //} 
-                
+
         }
 
         public MyBlog_DBContext(DbContextOptions<MyBlog_DBContext> options)
@@ -117,7 +117,13 @@ namespace MyBlog.Models
                     .HasColumnType("datetime")
                     .HasColumnName("Created_at");
 
-                entity.Property(e => e.Password).HasMaxLength(255);
+                entity.Property(e => e.PasswordHash)
+                    .IsRequired()
+                    .HasColumnType("varbinary(max)");
+
+                entity.Property(e => e.PasswordSalt)
+                    .IsRequired()
+                    .HasColumnType("varbinary(max)");
 
                 entity.Property(e => e.UserName).HasMaxLength(255);
             });

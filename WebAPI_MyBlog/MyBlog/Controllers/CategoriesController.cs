@@ -10,6 +10,7 @@ using Microsoft.VisualBasic;
 using MyBlog.Dto;
 using MyBlog.Interfaces;
 using MyBlog.Models;
+using MyBlog.Repository;
 
 
 namespace MyBlog.Controllers
@@ -25,6 +26,25 @@ namespace MyBlog.Controllers
         {
             _categoryRepository = categoryRepository;
             _mapper = mapper;
+        }
+
+        [HttpGet("{categoryId}/posts")]
+        [ProducesResponseType(200, Type = typeof(IEnumerable<Post>))]
+        public IActionResult GetPostByCategoryId(int categoryId)
+        {
+            if (!_categoryRepository.CategoryExist(categoryId))
+            {
+                return NotFound("Category not found!");
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var postMapped = _mapper.Map<List<PostDto>>(_categoryRepository.GetPostByCategoryId(categoryId));
+
+            return Ok(postMapped);
         }
 
         [HttpGet]
@@ -46,7 +66,7 @@ namespace MyBlog.Controllers
             return Ok(categories);
         }
 
-        [HttpGet("category/{cateId}")]
+        [HttpGet("{cateId}")]
         [ProducesResponseType(200, Type = typeof(Category))]
         [ProducesResponseType(400)]
         public IActionResult GetCategory(int cateId)

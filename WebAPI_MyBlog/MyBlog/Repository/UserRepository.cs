@@ -11,6 +11,11 @@ namespace MyBlog.Repository
         {
             _context = context;
         }
+
+        public ICollection<Post> GetPostByUserId(int userId)
+        {
+            return _context.Posts.Where(p => p.UsersId == userId).ToList();
+        }
         public bool CreateUser(User user)
         {
             _context.Users.Add(user);
@@ -48,6 +53,11 @@ namespace MyBlog.Repository
         public bool UserExist(int userId)
         {
             return _context.Users.Any(u => u.Id == userId);
+        }
+
+        public User GetUserByName(string username)
+        {
+            return _context.Users.Where(u => u.UserName.Trim().ToLower() == username.TrimEnd().ToLower()).FirstOrDefault();
         }
     }
 }

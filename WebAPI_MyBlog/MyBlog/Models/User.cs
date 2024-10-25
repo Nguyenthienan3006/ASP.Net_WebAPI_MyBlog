@@ -13,7 +13,8 @@ namespace MyBlog.Models
 
         public int Id { get; set; }
         public string UserName { get; set; } = null!;
-        public string Password { get; set; } = null!;
+        public byte[] PasswordHash { get; set; } = null!; // Lưu trữ hash của mật khẩu
+        public byte[] PasswordSalt { get; set; } = null!; // Lưu trữ salt dùng để mã hóa
         public DateTime CreatedAt { get; set; }
 
         public virtual ICollection<Comment> Comments { get; set; }

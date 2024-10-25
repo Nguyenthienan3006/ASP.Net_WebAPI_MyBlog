@@ -13,6 +13,11 @@ namespace MyBlog.Repository
             _context = context;
         }
 
+        public ICollection<Post> GetPostByCategoryId(int categoryId)
+        {
+            return _context.PostCategories.Where(p => p.CategoryId == categoryId).Select(c => c.Post).ToList();
+        }
+
         public bool CategoryExist(int categoryId)
         {
             return _context.Categories.Any(c => c.Id == categoryId);
