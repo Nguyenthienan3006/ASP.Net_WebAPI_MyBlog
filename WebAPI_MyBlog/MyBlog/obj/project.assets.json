@@ -11253,9 +11253,9 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\admin\\Desktop\\WorkSpace\\MyProject\\MyBlog-Project\\ASP.Net_WebAPI_MyBlog\\WebAPI_MyBlog\\MyBlog\\MyBlog.csproj",
-      "projectName": "MyBlog",
-      "projectPath": "C:\\Users\\admin\\Desktop\\WorkSpace\\MyProject\\MyBlog-Project\\ASP.Net_WebAPI_MyBlog\\WebAPI_MyBlog\\MyBlog\\MyBlog.csproj",
+      "projectUniqueName": "C:\\Users\\admin\\Desktop\\WorkSpace\\MyProject\\MyBlog-Project\\ASP.Net_WebAPI_MyBlog\\WebAPI_MyBlog\\MyBlog\\MyBlog_API.csproj",
+      "projectName": "MyBlog_API",
+      "projectPath": "C:\\Users\\admin\\Desktop\\WorkSpace\\MyProject\\MyBlog-Project\\ASP.Net_WebAPI_MyBlog\\WebAPI_MyBlog\\MyBlog\\MyBlog_API.csproj",
       "packagesPath": "C:\\Users\\admin\\.nuget\\packages\\",
       "outputPath": "C:\\Users\\admin\\Desktop\\WorkSpace\\MyProject\\MyBlog-Project\\ASP.Net_WebAPI_MyBlog\\WebAPI_MyBlog\\MyBlog\\obj\\",
       "projectStyle": "PackageReference",

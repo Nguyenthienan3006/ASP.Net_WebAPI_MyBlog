@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "JT9qDrO//Q1DccEYquI2wjh444P7tIsukpFWc/9TzXupt6xqFbJ65ifPT+tuGUKGsUPFvofBoR+/38KGFxWh9Q==",
+  "dgSpecHash": "kk8P7QPdggufGsIFrZDm0mxQF6Nja5NcIMAoFnNNdboCdfLrVlXoq7R1c59KEFvBaRvDhrc+brINqrRPFXQTvw==",
   "success": true,
-  "projectFilePath": "C:\\Users\\admin\\Desktop\\WorkSpace\\MyProject\\MyBlog-Project\\ASP.Net_WebAPI_MyBlog\\WebAPI_MyBlog\\MyBlog\\MyBlog.csproj",
+  "projectFilePath": "C:\\Users\\admin\\Desktop\\WorkSpace\\MyProject\\MyBlog-Project\\ASP.Net_WebAPI_MyBlog\\WebAPI_MyBlog\\MyBlog\\MyBlog_API.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\admin\\.nuget\\packages\\automapper\\13.0.1\\automapper.13.0.1.nupkg.sha512",
     "C:\\Users\\admin\\.nuget\\packages\\humanizer\\2.14.1\\humanizer.2.14.1.nupkg.sha512",
