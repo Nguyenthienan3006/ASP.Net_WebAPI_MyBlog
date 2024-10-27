@@ -7,6 +7,7 @@ namespace MyBlog.Interfaces
     {
         ICollection<Comment> GetComments();
         Comment GetComment(int id);
+        ICollection<Comment> GetCommentByUserId (int userId);
         bool CreateComment(Comment comment);
         bool UpdateComment(Comment comment);
         bool DeleteComment(Comment comment);

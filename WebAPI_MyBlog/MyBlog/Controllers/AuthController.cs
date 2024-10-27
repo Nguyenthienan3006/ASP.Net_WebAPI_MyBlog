@@ -1,16 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.CodeAnalysis.Scripting;
-using Microsoft.IdentityModel.Tokens;
 using MyBlog.Dto;
 using MyBlog.Handlers;
 using MyBlog.Interfaces;
 using MyBlog.Models;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Security.Cryptography;
-using System.Text;
 
 namespace MyBlog.Controllers
 {
@@ -19,12 +12,10 @@ namespace MyBlog.Controllers
     [AllowAnonymous]
     public class AuthController : ControllerBase
     {
-        private readonly IConfiguration _configuration;
         private readonly IUserRepository _userRepository;
 
-        public AuthController(IConfiguration configuration, IUserRepository userRepository)
+        public AuthController(IUserRepository userRepository)
         {
-            _configuration = configuration;
             _userRepository = userRepository;
         }
 
@@ -72,7 +63,7 @@ namespace MyBlog.Controllers
         [HttpPost("login")]
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
-        public IActionResult Login([FromBody] LoginDto loginDto)
+        public object Login([FromBody] LoginDto loginDto)
         {
             if (loginDto == null || !ModelState.IsValid)
             {
@@ -87,39 +78,13 @@ namespace MyBlog.Controllers
             }
 
             // Tạo JWT token
-            var token = GenerateJwtToken(user);
+            var token = MyBlog_API.Handlers.TokenHandler.GenerateJwtToken(user);
 
-            return Ok(new { token });
-        }
-
-        // Phương thức tạo JWT token
-        private string GenerateJwtToken(User user)
-        {
-            var issuer = _configuration["Jwt:Issuer"];
-            var audience = _configuration["Jwt:Audience"];
-            var key = _configuration["Jwt:Key"];
-            var tokenValidityMins = _configuration.GetValue<int>("Jwt:TokenValidityMins");
-            var tokenExpiryTimeStamp = DateTime.UtcNow.AddMinutes(tokenValidityMins);
-
-            var tokenDescriptor = new SecurityTokenDescriptor
+            return new
             {
-                Subject = new ClaimsIdentity(new[]
-                {
-                    new Claim(JwtRegisteredClaimNames.Name, user.UserName)
-                }),
-                Issuer = issuer,
-                Expires = tokenExpiryTimeStamp,
-                Audience = audience,
-                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(Encoding.ASCII.GetBytes(key)),
-                SecurityAlgorithms.HmacSha512Signature),
+                UserName = loginDto.Username,
+                AccessToken = token
             };
-
-            var tokenHandler = new JwtSecurityTokenHandler();
-            var securityToken = tokenHandler.CreateToken(tokenDescriptor);
-            var accessToken = tokenHandler.WriteToken(securityToken);
-
-            return accessToken;
-
         }
     }
 

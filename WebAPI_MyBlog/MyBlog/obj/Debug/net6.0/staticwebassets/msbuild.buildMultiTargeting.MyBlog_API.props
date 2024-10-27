@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\build\MyBlog_API.props" />
+</Project>

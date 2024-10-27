@@ -1,10 +1,10 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MyBlog.Dto;
 using MyBlog.Interfaces;
 using MyBlog.Models;
+using System.Security.Claims;
 
 namespace MyBlog.Controllers
 {
@@ -15,11 +15,15 @@ namespace MyBlog.Controllers
     {
         private readonly ICommentRepository _commentRepository;
         private readonly IMapper _mapper;
+        private readonly IPostRepository _postRepository;
+        private readonly IUserRepository _userRepository;
 
-        public CommentController(ICommentRepository commentRepository, IMapper mapper)
+        public CommentController(ICommentRepository commentRepository, IMapper mapper, IPostRepository postRepository, IUserRepository userRepository)
         {
             _commentRepository = commentRepository;
             _mapper = mapper;
+            _postRepository = postRepository;
+            _userRepository = userRepository;
         }
 
         [HttpGet]
@@ -54,6 +58,45 @@ namespace MyBlog.Controllers
             var commentMapped = _mapper.Map<CommentDto>(_commentRepository.GetComment(commentId));
 
             return Ok(commentMapped);
+        }
+
+        [HttpPost]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(400)]
+        public IActionResult CreateComment([FromBody] CommentDto commentToAdd)
+        {
+            if(commentToAdd == null)
+            {
+                return BadRequest(ModelState);
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            if (!_postRepository.PostExist(commentToAdd.PostId))
+            {
+                return NotFound("Post not found");
+            }
+
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            if (!_userRepository.UserExist(int.Parse(userId))){
+                return NotFound("User not found.");
+            }
+
+            var commentMapped = _mapper.Map<Comment>(commentToAdd);
+
+            commentMapped.UsersId = int.Parse(userId);
+
+            if(!_commentRepository.CreateComment(commentMapped))
+            {
+                ModelState.AddModelError("", "Something went wrong deleting comment");
+                return StatusCode(500, ModelState);
+            }
+
+            return Ok("Create successfully");
         }
 
         [HttpDelete("{commentId}")]

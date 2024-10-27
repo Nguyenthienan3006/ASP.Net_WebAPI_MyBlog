@@ -33,6 +33,11 @@ namespace MyBlog.Repository
             return _context.Comments.Where(c => c.Id == id).FirstOrDefault();
         }
 
+        public ICollection<Comment> GetCommentByUserId(int userId)
+        {
+            return _context.Comments.Where(c => c.UsersId == userId).ToList();
+        }
+
         public ICollection<Comment> GetComments()
         {
             return _context.Comments.ToList();

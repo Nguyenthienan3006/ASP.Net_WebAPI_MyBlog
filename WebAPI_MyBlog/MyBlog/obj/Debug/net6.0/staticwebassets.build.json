@@ -1,8 +1,8 @@
 {
   "Version": 1,
-  "Hash": "BlViLWhuUFwG+FelzZKM//md+eMmLD6uSSdVlGPAiSg=",
-  "Source": "MyBlog",
-  "BasePath": "_content/MyBlog",
+  "Hash": "Zu7uZQeeRig5Jvqc3BLkJAml5XsoAt8t+UebS0y4/a0=",
+  "Source": "MyBlog_API",
+  "BasePath": "_content/MyBlog_API",
   "Mode": "Default",
   "ManifestType": "Build",
   "ReferencedProjectsConfiguration": [],
