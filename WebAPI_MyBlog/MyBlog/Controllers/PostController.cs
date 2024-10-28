@@ -10,7 +10,6 @@ namespace MyBlog.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
     public class PostController : ControllerBase
     {
         private readonly IPostRepository _postRepository;
@@ -26,6 +25,7 @@ namespace MyBlog.Controllers
 
         [HttpGet]
         [ProducesResponseType(200, Type = typeof(IEnumerable<Post>))]
+
         public IActionResult GetPosts()
         {
             if (!ModelState.IsValid)
@@ -40,6 +40,7 @@ namespace MyBlog.Controllers
         [HttpGet("{postId}")]
         [ProducesResponseType(200, Type = typeof(Post))]
         [ProducesResponseType(400)]
+        [Authorize]
         public IActionResult GetPost(int postId)
         {
             if (!_postRepository.PostExist(postId))
@@ -60,6 +61,7 @@ namespace MyBlog.Controllers
         [HttpGet("{postId}/comments")]
         [ProducesResponseType(200, Type = typeof(Comment))]
         [ProducesResponseType(400)]
+        [Authorize]
         public IActionResult GetCommentOfPost(int postId)
         {
             if (!_postRepository.PostExist(postId))
@@ -80,6 +82,7 @@ namespace MyBlog.Controllers
         [HttpPost]
         [ProducesResponseType(204)]
         [ProducesResponseType(400)]
+        [Authorize]
         public IActionResult CreatePost([FromBody] PostDto postToAdd)
         {
             if(postToAdd  == null)
@@ -124,6 +127,7 @@ namespace MyBlog.Controllers
         [ProducesResponseType(400)]
         [ProducesResponseType(204)]
         [ProducesResponseType(404)]
+        [Authorize]
         public IActionResult UpdatePost(int postId, [FromBody] PostDto postToUpdate)
         {
             if(postToUpdate == null)
@@ -163,6 +167,7 @@ namespace MyBlog.Controllers
         [ProducesResponseType(400)]
         [ProducesResponseType(204)]
         [ProducesResponseType(404)]
+        [Authorize]
         public IActionResult DeletePost(int postId)
         {
             if (!_postRepository.PostExist(postId))

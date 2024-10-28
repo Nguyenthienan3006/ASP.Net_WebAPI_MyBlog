@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "U71Na8HYnDIkWi+vCfOJ3HOtFtBSt5UnIRYF06CHQDgTVJAkMcDWpmpnRmvEt91SUMYOcPjpzx9PP8wwhZbAbA==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\admin\\Desktop\\WorkSpace\\MyProject\\MyBlog-Project\\ASP.Net_WebAPI_MyBlog\\WebAPI_MyBlog\\MyBlog_Clients_MVC\\MyBlog_Clients_MVC.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\admin\\.nuget\\packages\\newtonsoft.json\\13.0.3\\newtonsoft.json.13.0.3.nupkg.sha512"
+  ],
+  "logs": []
+}

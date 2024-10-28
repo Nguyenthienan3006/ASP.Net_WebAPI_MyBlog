@@ -4,6 +4,7 @@ using MyBlog.Dto;
 using MyBlog.Handlers;
 using MyBlog.Interfaces;
 using MyBlog.Models;
+using MyBlog_API.Handlers;
 
 namespace MyBlog.Controllers
 {
@@ -13,10 +14,12 @@ namespace MyBlog.Controllers
     public class AuthController : ControllerBase
     {
         private readonly IUserRepository _userRepository;
+        private readonly IConfiguration _configuration;
 
-        public AuthController(IUserRepository userRepository)
+        public AuthController(IUserRepository userRepository, IConfiguration configuration)
         {
             _userRepository = userRepository;
+            _configuration = configuration;
         }
 
         // Đăng ký tài khoản mới
@@ -78,7 +81,8 @@ namespace MyBlog.Controllers
             }
 
             // Tạo JWT token
-            var token = MyBlog_API.Handlers.TokenHandler.GenerateJwtToken(user);
+            var tokenHandler = new TokenHandler(_configuration);
+            var token = tokenHandler.GenerateJwtToken(user);
 
             return new
             {

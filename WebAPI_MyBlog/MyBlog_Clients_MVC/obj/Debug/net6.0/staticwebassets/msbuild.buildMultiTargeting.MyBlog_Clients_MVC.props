@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\build\MyBlog_Clients_MVC.props" />
+</Project>

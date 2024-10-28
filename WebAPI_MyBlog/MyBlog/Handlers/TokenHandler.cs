@@ -16,7 +16,7 @@ namespace MyBlog_API.Handlers
             _configuration = configuration;
         }
         // Phương thức tạo JWT token
-        public static string GenerateJwtToken(User user)
+        public string GenerateJwtToken(User user)
         {
             var issuer = _configuration["Jwt:Issuer"];
             var audience = _configuration["Jwt:Audience"];
