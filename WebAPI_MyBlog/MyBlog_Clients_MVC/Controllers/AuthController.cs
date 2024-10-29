@@ -1,15 +1,19 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AspNetCoreHero.ToastNotification.Abstractions;
+using Microsoft.AspNetCore.Mvc;
 using MyBlog_Clients_MVC.Dto;
+using MyBlog_Clients_MVC.Models;
 
 namespace MyBlog_Clients_MVC.Controllers
 {
     public class AuthController : Controller
     {
-        private readonly HttpClient _httpClientFactory;
+        private readonly HttpClient _client;
+        private readonly INotyfService _notyf;
 
-        public AuthController()
+        public AuthController(INotyfService notyf)
         {
-            _httpClientFactory = new HttpClient();
+            _client = new HttpClient();
+            _notyf = notyf;
         }
 
         public IActionResult Index()
@@ -29,54 +33,61 @@ namespace MyBlog_Clients_MVC.Controllers
         [HttpPost]
         public async Task<IActionResult> Register(RegisterDto registerDto)
         {
-            //if (!ModelState.IsValid)
-            //{
-            //    return View(registerDto);
-            //}
+            if (!ModelState.IsValid)
+            {
+                return View(registerDto);
+            }
 
-            //var client = _httpClientFactory.CreateClient();
-            //var response = await client.PostAsJsonAsync("https://yourapi.com/api/auth/register", registerDto);
+            var response = await _client.PostAsJsonAsync("https://localhost:7233/api/Auth/register", registerDto);
 
-            //if (!response.IsSuccessStatusCode)
-            //{
-            //    ModelState.AddModelError(string.Empty, "Registration failed. Please try again.");
-            //    return View(registerDto);
-            //}
+            if (!response.IsSuccessStatusCode)
+            {
+                // Đọc message từ API response
+                var errorMessage = await response.Content.ReadAsStringAsync();
+            
+                _notyf.Warning(errorMessage);
+                return View(registerDto);
+            }
 
             // Optional: Redirect to login page after successful registration
+            _notyf.Success("Register Succesfully");
             return RedirectToAction("Login");
         }
 
         // GET: Login
         [HttpGet]
-        public IActionResult Login()
+        public async Task<IActionResult> Login()
         {
             return View();
         }
 
-        //// POST: Login
-        //[HttpPost]
-        //public async Task<IActionResult> Login(LoginDto loginDto)
-        //{
-        //    if (!ModelState.IsValid)
-        //    {
-        //        return View(loginDto);
-        //    }
+        // POST: Login
+        [HttpPost]
+        public async Task<IActionResult> Login(LoginDto loginDto)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(loginDto);
+            }
 
-        //    var client = _httpClientFactory.CreateClient();
-        //    var response = await client.PostAsJsonAsync("https://yourapi.com/api/auth/login", loginDto);
+            var response = await _client.PostAsJsonAsync("https://localhost:7233/api/Auth/login", loginDto);
 
-        //    if (!response.IsSuccessStatusCode)
-        //    {
-        //        ModelState.AddModelError(string.Empty, "Invalid username or password.");
-        //        return View(loginDto);
-        //    }
+            if (!response.IsSuccessStatusCode)
+            {
+                // Đọc message từ API response
+                var errorMessage = await response.Content.ReadAsStringAsync();
 
-        //    var tokenData = await response.Content.ReadFromJsonAsync<TokenResponse>();
-        //    HttpContext.Session.SetString("AccessToken", tokenData.AccessToken);
+                _notyf.Warning(errorMessage);
+                return View(loginDto);  
+            }
 
-        //    // Optional: Redirect to a protected page after successful login
-        //    return RedirectToAction("Index", "Home");
-        //}
+            var tokenData = await response.Content.ReadFromJsonAsync<TokenResponse>();
+            HttpContext.Session.SetString("AccessToken", tokenData.AccessToken);
+            HttpContext.Session.SetString("UserName", tokenData.UserName);
+
+            //Optional: Redirect to a protected page after successful login
+            _notyf.Success("Login Succesfully");
+            return RedirectToAction("Index", "Home");
+        }
     }
 }

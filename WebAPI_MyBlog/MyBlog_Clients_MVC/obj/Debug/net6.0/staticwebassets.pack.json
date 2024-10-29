@@ -9,6 +9,10 @@
       "PackagePath": "staticwebassets\\assets\\css\\joeblog.css"
     },
     {
+      "Id": "C:\\Users\\admin\\Desktop\\WorkSpace\\MyProject\\MyBlog-Project\\ASP.Net_WebAPI_MyBlog\\WebAPI_MyBlog\\MyBlog_Clients_MVC\\wwwroot\\assets\\imgs\\AnNguyen.svg",
+      "PackagePath": "staticwebassets\\assets\\imgs\\AnNguyen.svg"
+    },
+    {
       "Id": "C:\\Users\\admin\\Desktop\\WorkSpace\\MyProject\\MyBlog-Project\\ASP.Net_WebAPI_MyBlog\\WebAPI_MyBlog\\MyBlog_Clients_MVC\\wwwroot\\assets\\imgs\\avatar-1.jpg",
       "PackagePath": "staticwebassets\\assets\\imgs\\avatar-1.jpg"
     },
@@ -53,8 +57,8 @@
       "PackagePath": "staticwebassets\\assets\\imgs\\blog-7.jpg"
     },
     {
-      "Id": "C:\\Users\\admin\\Desktop\\WorkSpace\\MyProject\\MyBlog-Project\\ASP.Net_WebAPI_MyBlog\\WebAPI_MyBlog\\MyBlog_Clients_MVC\\wwwroot\\assets\\imgs\\header.jpg",
-      "PackagePath": "staticwebassets\\assets\\imgs\\header.jpg"
+      "Id": "C:\\Users\\admin\\Desktop\\WorkSpace\\MyProject\\MyBlog-Project\\ASP.Net_WebAPI_MyBlog\\WebAPI_MyBlog\\MyBlog_Clients_MVC\\wwwroot\\assets\\imgs\\header2.jpg",
+      "PackagePath": "staticwebassets\\assets\\imgs\\header2.jpg"
     },
     {
       "Id": "C:\\Users\\admin\\Desktop\\WorkSpace\\MyProject\\MyBlog-Project\\ASP.Net_WebAPI_MyBlog\\WebAPI_MyBlog\\MyBlog_Clients_MVC\\wwwroot\\assets\\imgs\\img-1.jpg",

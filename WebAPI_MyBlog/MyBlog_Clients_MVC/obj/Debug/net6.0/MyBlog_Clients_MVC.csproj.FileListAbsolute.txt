@@ -6,12 +6,15 @@ C:\Users\admin\Desktop\WorkSpace\MyProject\MyBlog-Project\ASP.Net_WebAPI_MyBlog\
 C:\Users\admin\Desktop\WorkSpace\MyProject\MyBlog-Project\ASP.Net_WebAPI_MyBlog\WebAPI_MyBlog\MyBlog_Clients_MVC\bin\Debug\net6.0\MyBlog_Clients_MVC.runtimeconfig.json
 C:\Users\admin\Desktop\WorkSpace\MyProject\MyBlog-Project\ASP.Net_WebAPI_MyBlog\WebAPI_MyBlog\MyBlog_Clients_MVC\bin\Debug\net6.0\MyBlog_Clients_MVC.dll
 C:\Users\admin\Desktop\WorkSpace\MyProject\MyBlog-Project\ASP.Net_WebAPI_MyBlog\WebAPI_MyBlog\MyBlog_Clients_MVC\bin\Debug\net6.0\MyBlog_Clients_MVC.pdb
+C:\Users\admin\Desktop\WorkSpace\MyProject\MyBlog-Project\ASP.Net_WebAPI_MyBlog\WebAPI_MyBlog\MyBlog_Clients_MVC\bin\Debug\net6.0\AspNetCoreHero.ToastNotification.Views.dll
+C:\Users\admin\Desktop\WorkSpace\MyProject\MyBlog-Project\ASP.Net_WebAPI_MyBlog\WebAPI_MyBlog\MyBlog_Clients_MVC\bin\Debug\net6.0\AspNetCoreHero.ToastNotification.dll
 C:\Users\admin\Desktop\WorkSpace\MyProject\MyBlog-Project\ASP.Net_WebAPI_MyBlog\WebAPI_MyBlog\MyBlog_Clients_MVC\bin\Debug\net6.0\Newtonsoft.Json.dll
 C:\Users\admin\Desktop\WorkSpace\MyProject\MyBlog-Project\ASP.Net_WebAPI_MyBlog\WebAPI_MyBlog\MyBlog_Clients_MVC\obj\Debug\net6.0\MyBlog_Clients_MVC.csproj.AssemblyReference.cache
 C:\Users\admin\Desktop\WorkSpace\MyProject\MyBlog-Project\ASP.Net_WebAPI_MyBlog\WebAPI_MyBlog\MyBlog_Clients_MVC\obj\Debug\net6.0\MyBlog_Clients_MVC.GeneratedMSBuildEditorConfig.editorconfig
 C:\Users\admin\Desktop\WorkSpace\MyProject\MyBlog-Project\ASP.Net_WebAPI_MyBlog\WebAPI_MyBlog\MyBlog_Clients_MVC\obj\Debug\net6.0\MyBlog_Clients_MVC.AssemblyInfoInputs.cache
 C:\Users\admin\Desktop\WorkSpace\MyProject\MyBlog-Project\ASP.Net_WebAPI_MyBlog\WebAPI_MyBlog\MyBlog_Clients_MVC\obj\Debug\net6.0\MyBlog_Clients_MVC.AssemblyInfo.cs
 C:\Users\admin\Desktop\WorkSpace\MyProject\MyBlog-Project\ASP.Net_WebAPI_MyBlog\WebAPI_MyBlog\MyBlog_Clients_MVC\obj\Debug\net6.0\MyBlog_Clients_MVC.csproj.CoreCompileInputs.cache
+C:\Users\admin\Desktop\WorkSpace\MyProject\MyBlog-Project\ASP.Net_WebAPI_MyBlog\WebAPI_MyBlog\MyBlog_Clients_MVC\obj\Debug\net6.0\MyBlog_Clients_MVC.MvcApplicationPartsAssemblyInfo.cs
 C:\Users\admin\Desktop\WorkSpace\MyProject\MyBlog-Project\ASP.Net_WebAPI_MyBlog\WebAPI_MyBlog\MyBlog_Clients_MVC\obj\Debug\net6.0\MyBlog_Clients_MVC.MvcApplicationPartsAssemblyInfo.cache
 C:\Users\admin\Desktop\WorkSpace\MyProject\MyBlog-Project\ASP.Net_WebAPI_MyBlog\WebAPI_MyBlog\MyBlog_Clients_MVC\obj\Debug\net6.0\MyBlog_Clients_MVC.RazorAssemblyInfo.cache
 C:\Users\admin\Desktop\WorkSpace\MyProject\MyBlog-Project\ASP.Net_WebAPI_MyBlog\WebAPI_MyBlog\MyBlog_Clients_MVC\obj\Debug\net6.0\MyBlog_Clients_MVC.RazorAssemblyInfo.cs

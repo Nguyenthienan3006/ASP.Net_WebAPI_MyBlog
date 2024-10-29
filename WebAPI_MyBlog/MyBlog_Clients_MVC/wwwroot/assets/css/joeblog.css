@@ -11608,9 +11608,9 @@ textarea.form-control {
 
 .page-header {
   position: relative;
-  background: url(../imgs/header.jpg) no-repeat center top fixed;
-  background-size: cover;
-  height: 450px;
+  background: url(../imgs/header2.jpg) no-repeat center top fixed;
+  background-size: contain;
+  height: 500px;
 }
 
 @media (max-width: 767.98px) {
@@ -11627,7 +11627,7 @@ textarea.form-control {
   height: 100%;
   left: 0;
   top: 0;
-  background: rgba(255, 255, 255, 0.2);
+
 }
 
 .page-header.page-header-mini {
