@@ -23,7 +23,7 @@
             </div>
             <div class="card-body">
             <div class="blog-media">
-            <img src="assets/imgs/blog-6.jpg" alt="" class="w-100">
+            <img src="~/assets/imgs/blog-6.jpg" alt="" class="w-100">
             <a href="#" class="badge badge-primary">#Salupt</a>
             </div>
             <p class="my-3">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eos saepe dolores et nostrum porro odit reprehenderit animi, est ratione fugit aspernatur ipsum. Nostrum placeat hic saepe voluptatum dicta ipsum beatae.</p>
@@ -49,21 +49,21 @@
                             <div class="card text-center mb-5">
                                 <div class="card-header p-0">
                                     <div class="blog-media">
-                                        <img src="assets/imgs/blog-2.jpg" alt="" class="w-100">
-                                        <a href="#" class="badge badge-primary">#Placeat</a>
+                                        <img src="~/assets/imgs/blog-2.jpg" alt="" class="w-100">
+                                        <a href="#" class="badge badge-primary">#@post.PostCategory</a>
                                     </div>
                                 </div>
                                 <div class="card-body px-0">
                                     <h5 class="card-title mb-2">@post.Title</h5>
                                     <small class="small text-muted">
-                                        @post.CreatedAt
+                                        @post.CreatedAt.ToString("MMMM dd yyyy")
                                         <span class="px-2">-</span>
-                                        <a href="#" class="text-muted">34 Comments</a>
+                                        <a href="#" class="text-muted">@post.CommentNumber comments</a>
                                     </small>
                                    </div>
 
                                 <div class="card-footer p-0 text-center">
-                                    <a href="single-post.html" class="btn btn-outline-dark btn-sm">READ MORE</a>
+                                    <a asp-controller="Post" asp-action="PostDetail" asp-route-postId="@post.Id" class="btn btn-outline-dark btn-sm">READ MORE</a>
                                 </div>
                             </div>
                         </div>
@@ -79,7 +79,7 @@
             <!-- Sidebar -->
             <div class="page-sidebar text-center">
                 <h6 class="sidebar-title section-title mb-4 mt-3">About</h6>
-                <img src="assets/imgs/avatar.jpg" alt="" class="circle-100 mb-3">
+                <img src="~/assets/imgs/ava.jpg" alt="" class="circle-100 mb-3">
                 <div class="socials mb-3 mt-2">
                     <a href="javascript:void(0)"><i class="ti-facebook"></i></a>
                     <a href="javascript:void(0)"><i class="ti-twitter"></i></a>
@@ -115,19 +115,19 @@
 
 
 
-@*                 <figure class="figure mt-5">
-                    <a href="single-post.html" class="figure-img">
-                        <img src="assets/imgs/img-4.jpg" alt="" class="w-100">
-                        <figcaption class="figcaption">Laboriosam</figcaption>
+                <figure class="figure mt-5">
+                    <a class="figure-img">
+                        <img src="~/assets/imgs/img-4.jpg" alt="" class="w-100">
+                        @* <figcaption class="figcaption">Laboriosam</figcaption> *@
                     </a>
-                </figure> *@
+                </figure>
 
                 <h6 class="sidebar-title mt-5 mb-4">Popular Posts</h6>
-                <div class="card mb-4">
+@*                 <div class="card mb-4">
                     <a href="single-post.html" class="overlay-link"></a>
                     <div class="card-header p-0">
                         <div class="blog-media">
-                            <img src="assets/imgs/blog-6.jpg" alt="" class="w-100">
+                            <img src="~/assets/imgs/blog-6.jpg" alt="" class="w-100">
                             <a href="#" class="badge badge-primary">#Lorem</a>
                         </div>
                     </div>
@@ -138,7 +138,7 @@
                         </small>
                         <p class="my-2">consectetur adipisicing Cum veritatis minus iustorpo cupiditate voluptas ...</p>
                     </div>
-                </div>
+                </div> *@
 
                 <div class="media text-left mb-4">
                     <a href="single-post.html" class="overlay-link"></a>

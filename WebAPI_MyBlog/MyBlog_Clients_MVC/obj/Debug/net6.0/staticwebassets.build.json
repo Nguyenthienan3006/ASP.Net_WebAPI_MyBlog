@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "ffeK+KQwtFsO1edZSrIFHIWrDvi6Rq75m2f4zW7Gwzk=",
+  "Hash": "r/iz+gKhaGkQmGDIrsnf++J7joNihX+6p7w8ZRtYTog=",
   "Source": "MyBlog_Clients_MVC",
   "BasePath": "_content/MyBlog_Clients_MVC",
   "Mode": "Default",
@@ -167,6 +167,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\assets\\imgs\\AnNguyen.svg"
+    },
+    {
+      "Identity": "C:\\Users\\admin\\Desktop\\WorkSpace\\MyProject\\MyBlog-Project\\ASP.Net_WebAPI_MyBlog\\WebAPI_MyBlog\\MyBlog_Clients_MVC\\wwwroot\\assets\\imgs\\ava.jpg",
+      "SourceId": "MyBlog_Clients_MVC",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\admin\\Desktop\\WorkSpace\\MyProject\\MyBlog-Project\\ASP.Net_WebAPI_MyBlog\\WebAPI_MyBlog\\MyBlog_Clients_MVC\\wwwroot\\",
+      "BasePath": "_content/MyBlog_Clients_MVC",
+      "RelativePath": "assets/imgs/ava.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\assets\\imgs\\ava.jpg"
     },
     {
       "Identity": "C:\\Users\\admin\\Desktop\\WorkSpace\\MyProject\\MyBlog-Project\\ASP.Net_WebAPI_MyBlog\\WebAPI_MyBlog\\MyBlog_Clients_MVC\\wwwroot\\assets\\imgs\\avatar.jpg",
@@ -471,6 +490,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\assets\\imgs\\img-4.jpg"
+    },
+    {
+      "Identity": "C:\\Users\\admin\\Desktop\\WorkSpace\\MyProject\\MyBlog-Project\\ASP.Net_WebAPI_MyBlog\\WebAPI_MyBlog\\MyBlog_Clients_MVC\\wwwroot\\assets\\imgs\\img-44.jpg",
+      "SourceId": "MyBlog_Clients_MVC",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\admin\\Desktop\\WorkSpace\\MyProject\\MyBlog-Project\\ASP.Net_WebAPI_MyBlog\\WebAPI_MyBlog\\MyBlog_Clients_MVC\\wwwroot\\",
+      "BasePath": "_content/MyBlog_Clients_MVC",
+      "RelativePath": "assets/imgs/img-44.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\assets\\imgs\\img-44.jpg"
     },
     {
       "Identity": "C:\\Users\\admin\\Desktop\\WorkSpace\\MyProject\\MyBlog-Project\\ASP.Net_WebAPI_MyBlog\\WebAPI_MyBlog\\MyBlog_Clients_MVC\\wwwroot\\assets\\imgs\\insta-1.jpg",

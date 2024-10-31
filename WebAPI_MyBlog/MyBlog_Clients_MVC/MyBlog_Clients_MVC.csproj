@@ -8,7 +8,6 @@
 
   <ItemGroup>
     <Folder Include="Views\Common\" />
-    <Folder Include="Views\Post\" />
   </ItemGroup>
 
   <ItemGroup>

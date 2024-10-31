@@ -1,0 +1,222 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    Layout = "~/Views/Admin/Shared/_AdminLayout.cshtml";
+}
+
+
+    <!-- Main Content -->
+    <div id="content">
+        <!-- Begin Page Content -->
+        <div class="container-fluid">
+
+            <!-- Page Heading -->
+            <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                <h1 class="h3 mb-0 text-gray-800">Summary</h1>
+            </div>
+
+            <!-- Content Row -->
+            <div class="row">
+
+                <!-- Earnings (Monthly) Card Example -->
+                <div class="col-xl-3 col-md-6 mb-4">
+                    <div class="card border-left-primary shadow h-100 py-2">
+                        <div class="card-body">
+                            <div>
+                                <div class="col mr-2">
+                                    <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                        Total Posts
+                                    </div>
+                                    <div class="h5 mb-0 font-weight-bold text-gray-800">1</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Earnings (Monthly) Card Example -->
+                <div class="col-xl-3 col-md-6 mb-4">
+                    <div class="card border-left-success shadow h-100 py-2">
+                        <div class="card-body">
+                            <div>
+                                <div class="col mr-2">
+                                    <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                                        Total Users
+                                    </div>
+                                    <div class="h5 mb-0 font-weight-bold text-gray-800">2</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-xl-3 col-md-6 mb-4">
+                    <div class="card border-left-success shadow h-100 py-2">
+                        <div class="card-body">
+                            <div>
+                                <div class="col mr-2">
+                                    <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                                        Total Categories
+                                    </div>
+                                    <div class="h5 mb-0 font-weight-bold text-gray-800">3</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <!-- Pending Requests Card Example -->
+                <div class="col-xl-3 col-md-6 mb-4">
+                    <div class="card border-left-warning shadow h-100 py-2">
+                        <div class="card-body">
+                            <div>
+                                <div class="col mr-2">
+                                    <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
+                                        Total Comments
+                                    </div>
+                                    <div class="h5 mb-0 font-weight-bold text-gray-800">4</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+          
+
+        </div>
+        <!-- /.container-fluid -->
+
+    </div>
+    <!-- End of Main Content -->
+<div class="container">
+    <br />
+    <hr />
+    <br />
+    <div class="page-container">
+        <div class="page-content">
+
+            <div class="row">
+                @if (ViewData["NotFound"] != null)
+                {
+                    <p>@ViewData["NotFound"]</p>
+                }
+                else
+                {
+                    @foreach (var post in Model)
+                    {
+                        <div class="col-lg-6">
+                            <div class="card text-center mb-5">
+                                <div class="card-header p-0">
+                                    <div class="blog-media">
+                                        <img src="~/assets/imgs/blog-2.jpg" alt="" class="w-100">
+                                        <a href="#" class="badge badge-primary">#@post.PostCategory</a>
+                                    </div>
+                                </div>
+                                <div class="card-body px-0">
+                                    <h5 class="card-title mb-2">@post.Title</h5>
+                                    <small class="small text-muted">
+                                        @post.CreatedAt.ToString("MMMM dd yyyy")
+                                        <span class="px-2">-</span>
+                                        <a href="#" class="text-muted">@post.CommentNumber comments</a>
+                                    </small>
+                                </div>
+
+                                <div class="card-footer p-0 text-center">
+                                    <a asp-controller="Post" asp-action="PostDetail" asp-route-postId="@post.Id" class="btn btn-outline-dark btn-sm">READ MORE</a>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                }
+
+
+            </div>
+
+            <button class="btn btn-primary btn-block my-4">Load More Posts</button>
+        </div>
+
+        <!-- Sidebar -->
+        <div class="page-sidebar text-center">
+            <h6 class="sidebar-title section-title mb-4 mt-3">About</h6>
+            <img src="~/assets/imgs/ava.jpg" alt="" class="circle-100 mb-3">
+            <div class="socials mb-3 mt-2">
+                <a href="javascript:void(0)"><i class="ti-facebook"></i></a>
+                <a href="javascript:void(0)"><i class="ti-twitter"></i></a>
+                <a href="javascript:void(0)"><i class="ti-pinterest-alt"></i></a>
+                <a href="javascript:void(0)"><i class="ti-instagram"></i></a>
+                <a href="javascript:void(0)"><i class="ti-youtube"></i></a>
+            </div>
+            <p>
+                "I’m a soon-to-graduate student, dreaming of becoming a Full Stack Engineer! With a passion for IT, I can turn bugs into features
+                and love exploring new technologies to become a better engineer!"
+            </p>
+
+
+            <h6 class="sidebar-title mt-5 mb-4">Newsletter</h6>
+            <form action="">
+                <div class="subscribe-wrapper">
+                    <input type="email" class="form-control" placeholder="Email Address">
+                    <button type="submit" class="btn btn-primary"><i class="ti-location-arrow"></i></button>
+                </div>
+            </form>
+
+            <h6 class="sidebar-title mt-5 mb-4">Tags</h6>
+            <a href="javascript:void(0)" class="badge badge-primary m-1">#iusto</a>
+            <a href="javascript:void(0)" class="badge badge-primary m-1">#quibusdam</a>
+            <a href="javascript:void(0)" class="badge badge-primary m-1">#officia</a>
+            <a href="javascript:void(0)" class="badge badge-primary m-1">#animi</a>
+            <a href="javascript:void(0)" class="badge badge-primary m-1">#mollitia</a>
+            <a href="javascript:void(0)" class="badge badge-primary m-1">#quod</a>
+            <a href="javascript:void(0)" class="badge badge-primary m-1">#ipsa at</a>
+            <a href="javascript:void(0)" class="badge badge-primary m-1">#dolor</a>
+            <a href="javascript:void(0)" class="badge badge-primary m-1">#incidunt</a>
+            <a href="javascript:void(0)" class="badge badge-primary m-1">#possimus</a>
+
+
+
+            <figure class="figure mt-5">
+                <a class="figure-img">
+                    <img src="~/assets/imgs/img-4.jpg" alt="" class="w-100">
+                </a>
+            </figure>
+
+            <h6 class="sidebar-title mt-5 mb-4">Popular Posts</h6>
+
+
+            <div class="media text-left mb-4">
+                <a href="single-post.html" class="overlay-link"></a>
+                <img class="mr-3" src="assets/imgs/blog-1.jpg" width="100px" alt="Generic placeholder image">
+                <div class="media-body">
+                    <h6 class="mt-0">Nobis Mollitia</h6>
+                    <p class="mb-2"> deserunt quisqua...</p>
+                    <p class="text-muted small"><i class="ti-calendar pr-1"></i>  January 02 2019</p>
+                </div>
+            </div>
+            <div class="media text-left mb-4">
+                <a href="single-post.html" class="overlay-link"></a>
+                <img class="mr-3" src="assets/imgs/blog-2.jpg" width="100px" alt="Generic placeholder image">
+                <div class="media-body">
+                    <h6 class="mt-0">
+                        Officiis Laborum</6>
+                        <p class="mb-2"> deserunt quisqua...</p>
+                        <p class="text-muted small"><i class="ti-calendar pr-1"></i>  January 10 2019</p>
+                </div>
+            </div>
+            <div class="media text-left mb-4">
+                <a href="single-post.html" class="overlay-link"></a>
+                <img class="mr-3" src="assets/imgs/blog-3.jpg" width="100px" alt="Generic placeholder image">
+                <div class="media-body">
+                    <h6 class="mt-0">Sapiente fugit vero</h6>
+                    <p class="mb-2"> deserunt ard quisqua...</p>
+                    <p class="text-muted small"><i class="ti-calendar pr-1"></i>  January 04 2019</p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+

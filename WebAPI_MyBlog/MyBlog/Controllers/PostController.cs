@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Hosting;
 using MyBlog.Dto;
 using MyBlog.Interfaces;
 using MyBlog.Models;
@@ -15,12 +16,14 @@ namespace MyBlog.Controllers
         private readonly IPostRepository _postRepository;
         private readonly IMapper _mapper;
         private readonly IUserRepository _userRepository;
+        private readonly ICategoryRepository _categoryRepository;
 
-        public PostController(IPostRepository postRepository, IMapper mapper, IUserRepository userRepository)
+        public PostController(IPostRepository postRepository, IMapper mapper, IUserRepository userRepository, ICategoryRepository categoryRepository)
         {
             _postRepository = postRepository;
             _mapper = mapper;
             _userRepository = userRepository;
+            _categoryRepository = categoryRepository;
         }
 
         [HttpGet]
@@ -32,7 +35,17 @@ namespace MyBlog.Controllers
             {
                 return BadRequest(ModelState);
             }
-            var posts = _mapper.Map<List<PostDto>>(_postRepository.GetPosts());
+            var posts = _postRepository.GetPosts().Select(post => new PostDto
+            {
+                Id = post.Id,
+                Title = post.Title,
+                Content = post.Content,
+                CreatedAt = post.CreatedAt,
+                Author = (_userRepository.GetUser(post.UsersId) as User).UserName,
+                CommentNumber = _postRepository.GetCommentOfPost(post.Id).Count(),
+                PostCategory = _categoryRepository.GetPostCategoryName(post.Id),
+            });
+            
 
             return Ok(posts);
         }
@@ -52,8 +65,11 @@ namespace MyBlog.Controllers
             {
                 return BadRequest(ModelState);
             }
+            var post = _postRepository.GetPost(postId);
+            var postMapped = _mapper.Map<PostDto>(post);
+            postMapped.Author = (_userRepository.GetUser(post.UsersId) as User).UserName;
+            postMapped.CommentNumber = _postRepository.GetCommentOfPost(postId).Count();
 
-            var postMapped = _mapper.Map<PostDto>(_postRepository.GetPost(postId));
             return Ok(postMapped);
 
         }

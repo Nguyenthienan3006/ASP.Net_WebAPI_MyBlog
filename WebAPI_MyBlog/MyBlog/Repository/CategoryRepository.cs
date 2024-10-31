@@ -56,5 +56,10 @@ namespace MyBlog.Repository
             _context.Categories.Update(category);
             return Save();
         }
+
+        public string GetPostCategoryName(int postId)
+        {
+            return _context.PostCategories.Where(p => p.PostId == postId).Select(p => p.Category.Name).FirstOrDefault();
+        }
     }
 }
