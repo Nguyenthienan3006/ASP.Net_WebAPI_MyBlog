@@ -1,0 +1,105 @@
+﻿@{
+    var categoryName = Context.Session.GetString("CategoryName");
+    
+}
+
+
+
+<h2>@ViewData["Title"]</h2>
+
+<div class="container">
+    <br />
+    <hr />
+    <br />
+    <div class="page-container">
+        <div class="page-content">
+            <div class="card">
+                <div class="card-header text-center">
+                    <h3 class="card-title">@categoryName</h3>
+                </div>
+
+            </div>
+            <div class="row">
+                @if (ViewData["NotFound"] != null)
+                {
+                    <p>@ViewData["NotFound"]</p>
+                }
+                else
+                {
+                    @foreach (var post in ViewBag.PostsList)
+                    {
+                        <div class="col-lg-6">
+                            <div class="card text-center mb-5">
+                                <div class="card-header p-0">
+                                    <div class="blog-media">
+                                        <img src="~/assets/imgs/blog-2.jpg" alt="" class="w-100">
+                                        <a href="#" class="badge badge-primary">#@post.PostCategory</a>
+                                    </div>
+                                </div>
+                                <div class="card-body px-0">
+                                    <h5 class="card-title mb-2">@post.Title</h5>
+                                    <small class="small text-muted">
+                                        @post.CreatedAt.ToString("MMMM dd yyyy")
+                                        <span class="px-2">-</span>
+                                        <a href="#" class="text-muted">@post.CommentNumber comments</a>
+                                    </small>
+                                </div>
+
+                                <div class="card-footer p-0 text-center">
+                                    <a asp-controller="Post" asp-action="PostDetail" asp-route-postId="@post.Id" class="btn btn-outline-dark btn-sm">READ MORE</a>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                }
+
+
+            </div>
+
+            <button class="btn btn-primary btn-block my-4">Load More Posts</button>
+        </div>
+
+        <!-- Sidebar -->
+        <div class="page-sidebar text-center">
+
+
+            <h6 class="sidebar-title mt-5 mb-4">Tags</h6>
+            @foreach (var cate in ViewBag.CategoriesList)
+            {
+                <a href="javascript:void(0)" class="badge badge-primary m-1">#@cate.Name</a>
+            }
+
+
+
+
+
+            <figure class="figure mt-5">
+                <a class="figure-img">
+                    <img src="~/assets/imgs/img-4.jpg" alt="" class="w-100">
+                    @* <figcaption class="figcaption">Laboriosam</figcaption> *@
+                </a>
+            </figure>
+
+            <h6 class="sidebar-title mt-5 mb-4">Newest Posts</h6>
+            @foreach (var item in ViewBag.NewestPosts)
+            {
+                <div class="media text-left mb-4">
+                    <a asp-controller="Post" asp-action="" class="overlay-link"></a>
+                    <img class="mr-3" src="~/assets/imgs/blog-1.jpg" width="100px" alt="Generic placeholder image">
+                    <div class="media-body">
+                        <h6 class="mt-0">@item.Title</h6>
+                        <p class="mb-2"> view more...</p>
+                        <p class="text-muted small"><i class="ti-calendar pr-1"></i>  @item.CreatedAt.ToString("MMMM dd yyyy")</p>
+                    </div>
+                </div>
+            }
+
+         
+
+            <div class="ad-card d-flex text-center align-items-center justify-content-center">
+                <span href="#" class="font-weight-bold">Working Hard</span>
+            </div>
+        </div>
+    </div>
+</div>
+

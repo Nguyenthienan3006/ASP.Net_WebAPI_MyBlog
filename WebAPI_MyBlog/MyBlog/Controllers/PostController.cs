@@ -5,6 +5,7 @@ using Microsoft.Extensions.Hosting;
 using MyBlog.Dto;
 using MyBlog.Interfaces;
 using MyBlog.Models;
+using MyBlog_API.Dto;
 using System.Security.Claims;
 
 namespace MyBlog.Controllers
@@ -46,6 +47,30 @@ namespace MyBlog.Controllers
                 PostCategory = _categoryRepository.GetPostCategoryName(post.Id),
             });
             
+
+            return Ok(posts);
+        }
+
+        [HttpGet("newestPosts")]
+        [ProducesResponseType(200, Type = typeof(Post))]
+        [ProducesResponseType(400)]
+        public IActionResult GetNewestPosts()
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            var posts = _postRepository.GetNewestPosts().Select(post => new PostDto
+            {
+                Id = post.Id,
+                Title = post.Title,
+                Content = post.Content,
+                CreatedAt = post.CreatedAt,
+                Author = (_userRepository.GetUser(post.UsersId) as User).UserName,
+                CommentNumber = _postRepository.GetCommentOfPost(post.Id).Count(),
+                PostCategory = _categoryRepository.GetPostCategoryName(post.Id),
+            });
+
 
             return Ok(posts);
         }
@@ -99,18 +124,30 @@ namespace MyBlog.Controllers
         [ProducesResponseType(204)]
         [ProducesResponseType(400)]
         [Authorize]
-        public IActionResult CreatePost([FromBody] PostDto postToAdd)
+        public IActionResult CreatePost(int categoryId, [FromBody] PostToAddDto postToAdd)
         {
             if(postToAdd  == null)
             {
                 return BadRequest(ModelState);
             }
 
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
             if (userId == null)
             {
                 return Unauthorized("Invalid user");
+            }
+
+            if(!_categoryRepository.CategoryExist(categoryId))
+            {
+                return NotFound("Category not exists");
             }
 
             var post = _postRepository.GetPosts().
@@ -122,15 +159,10 @@ namespace MyBlog.Controllers
                 return StatusCode(422, ModelState);
             }
 
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
             var postMapped = _mapper.Map<Post>(postToAdd);
             postMapped.UsersId = int.Parse(userId);
 
-            if (!_postRepository.CreatePost(postMapped))
+            if (!_postRepository.CreatePost(postMapped, categoryId, int.Parse(userId)))
             {
                 ModelState.AddModelError("", "Something went wrong while saving!");
                 return StatusCode(500, ModelState);

@@ -1,23 +1,29 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Hosting;
 using MyBlog.Dto;
 using MyBlog.Interfaces;
 using MyBlog.Models;
+using MyBlog.Repository;
 
 
 namespace MyBlog.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
+
     public class CategoriesController : ControllerBase
     {
+        private readonly IUserRepository _userRepository;
+        private readonly IPostRepository _postRepository;
         private readonly ICategoryRepository _categoryRepository;
         private readonly IMapper _mapper;
 
-        public CategoriesController(ICategoryRepository categoryRepository, IMapper mapper)
+        public CategoriesController(IUserRepository userRepository, IPostRepository postRepository, ICategoryRepository categoryRepository, IMapper mapper)
         {
+            _userRepository = userRepository;
+            _postRepository = postRepository;
             _categoryRepository = categoryRepository;
             _mapper = mapper;
         }
@@ -34,9 +40,18 @@ namespace MyBlog.Controllers
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
-            }
+            }   
 
-            var postMapped = _mapper.Map<List<PostDto>>(_categoryRepository.GetPostByCategoryId(categoryId));
+            var postMapped = _categoryRepository.GetPostByCategoryId(categoryId).Select(post => new PostDto
+            {
+                Id = post.Id,
+                Title = post.Title,
+                Content = post.Content,
+                CreatedAt = post.CreatedAt,
+                Author = (_userRepository.GetUser(post.UsersId) as User).UserName,
+                CommentNumber = _postRepository.GetCommentOfPost(post.Id).Count(),
+                PostCategory = _categoryRepository.GetPostCategoryName(post.Id),
+            });
 
             return Ok(postMapped);
         }
@@ -64,6 +79,7 @@ namespace MyBlog.Controllers
         [HttpGet("{cateId}")]
         [ProducesResponseType(200, Type = typeof(Category))]
         [ProducesResponseType(400)]
+        [Authorize]
         public IActionResult GetCategory(int cateId)
         {
             if(!_categoryRepository.CategoryExist(cateId))
@@ -84,6 +100,7 @@ namespace MyBlog.Controllers
         [HttpPost]
         [ProducesResponseType(400)]
         [ProducesResponseType(204)]
+        [Authorize]
         public IActionResult CreateCategory([FromBody] CategoryDto categoryToAdd)
         {
             if(categoryToAdd == null)
@@ -120,6 +137,7 @@ namespace MyBlog.Controllers
         [ProducesResponseType(400)]
         [ProducesResponseType(204)]
         [ProducesResponseType(404)]
+        [Authorize]
         public IActionResult UpdateCategory(int cateId, [FromBody] CategoryDto categoryToUpdate)
         {
             if(categoryToUpdate == null)
@@ -157,6 +175,7 @@ namespace MyBlog.Controllers
         [ProducesResponseType(400)]
         [ProducesResponseType(204)]
         [ProducesResponseType(404)]
+        [Authorize]
         public IActionResult DeleteCategory(int cateId) 
         {
             if (!_categoryRepository.CategoryExist(cateId))

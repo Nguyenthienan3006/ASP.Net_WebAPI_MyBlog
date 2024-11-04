@@ -50,5 +50,54 @@ namespace MyBlog_Clients_MVC.Controllers
 
             return View(postDetail);
         }
+
+        [HttpGet]
+        public async Task<IActionResult> PostByCategory(int categoryId, string categoryName)
+        {
+            if(categoryName != null)
+            {
+                HttpContext.Session.SetString("CategoryName", categoryName);
+            }
+
+            //Get All posts
+            HttpResponseMessage getAllPostResponse = await _client.GetAsync($"https://localhost:7233/api/Categories/{categoryId}/posts");
+            if (getAllPostResponse.StatusCode == System.Net.HttpStatusCode.NotFound)
+            {
+                ViewData["NotFound"] = "Not Found !";
+                return View();
+            }
+            string strData = await getAllPostResponse.Content.ReadAsStringAsync();
+            var postsList = JsonConvert.DeserializeObject<List<PostDto>>(strData);
+
+
+            //Get newest posts
+            HttpResponseMessage getNewestPosts = await _client.GetAsync("https://localhost:7233/api/Post/newestPosts");
+            if (getNewestPosts.StatusCode == System.Net.HttpStatusCode.NotFound)
+            {
+                ViewData["NotFound"] = "Not Found !";
+                return View();
+            }
+            string strData2 = await getNewestPosts.Content.ReadAsStringAsync();
+            var newestPosts = JsonConvert.DeserializeObject<List<PostDto>>(strData2);
+
+
+            //Get categoriesList
+            HttpResponseMessage getCategoriesResponse = await _client.GetAsync("https://localhost:7233/api/Categories");
+            if (getCategoriesResponse.StatusCode == System.Net.HttpStatusCode.NotFound)
+            {
+                ViewData["NotFound"] = "Not Found !";
+                return View();
+            }
+            string strData3 = await getCategoriesResponse.Content.ReadAsStringAsync();
+            var categoriesList = JsonConvert.DeserializeObject<List<CategoryDto>>(strData3);
+
+
+
+            ViewBag.PostsList = postsList;
+            ViewBag.NewestPosts = newestPosts;
+            ViewBag.CategoriesList = categoriesList;
+
+            return View();
+        }
     }
 }

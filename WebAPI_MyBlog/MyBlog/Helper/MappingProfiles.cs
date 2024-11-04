@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using MyBlog.Dto;
 using MyBlog.Models;
+using MyBlog_API.Dto;
 
 namespace MyBlog.Helper
 {
@@ -16,6 +17,7 @@ namespace MyBlog.Helper
             CreateMap<User, UserToCreateDto> ();
             CreateMap<Post, PostDto>();
             CreateMap<PostDto, Post>();
+            CreateMap<PostToAddDto, Post>();
             CreateMap<CommentDto, Comment>();
             CreateMap<Comment, CommentDto>();
         }
