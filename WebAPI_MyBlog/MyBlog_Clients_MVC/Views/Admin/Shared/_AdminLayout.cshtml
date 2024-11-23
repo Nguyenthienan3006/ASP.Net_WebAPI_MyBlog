@@ -52,6 +52,15 @@
                         <li class="nav-item">
                             <a class="nav-link" asp-area="" asp-controller="Admin" asp-action="Index">Home</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="" asp-controller="AdminPost" asp-action="CreatePost">Create Post</a>
+                        </li>
+                        @foreach (var item in ViewBag.CategoriesList)
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link" asp-area="" asp-controller="Post" asp-action="PostByCategory" asp-route-categoryName="@item.Name" asp-route-categoryId="@item.Id">@item.Name</a>
+                            </li>
+                        }
                     </ul>
                     @if (userName == null && string.IsNullOrEmpty(accessToken))
                     {

@@ -1,5 +1,4 @@
 ﻿@{
-    var accessToken = Context.Session.GetString("AccessToken");
     var userName = Context.Session.GetString("UserName");
 
     if(userName == "Admin")
@@ -12,7 +11,7 @@
 @model PostDto
 <!-- Page Header -->
 <header class="page-header page-header-mini">
-    <h1 class="title">Voluptates Corporis Placeat</h1>
+    <h1 class="title">@Model.Title</h1>
     <ol class="breadcrumb pb-0">
         <li class="breadcrumb-item"><a href="index.html">Home</a></li>
         <li class="breadcrumb-item active" aria-current="page">@Model.Title</li>

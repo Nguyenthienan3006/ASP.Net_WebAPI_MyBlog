@@ -84,8 +84,12 @@ namespace MyBlog_Clients_MVC.Controllers
             var tokenData = await response.Content.ReadFromJsonAsync<TokenResponse>();
             HttpContext.Session.SetString("AccessToken", tokenData.AccessToken);
             HttpContext.Session.SetString("UserName", tokenData.UserName);
+
+
             if(tokenData.UserName == "Admin")
             {
+
+                _notyf.Success("Login Successfully");
                 return RedirectToAction("Index", "Admin");
             }
 

@@ -1,6 +1,12 @@
 ﻿@{
     var categoryName = Context.Session.GetString("CategoryName");
-    
+    var userName = Context.Session.GetString("UserName");
+
+    if(userName == "Admin")
+    {
+        Layout = "~/Views/Admin/Shared/_AdminLayout.cshtml";
+    }
+
 }
 
 

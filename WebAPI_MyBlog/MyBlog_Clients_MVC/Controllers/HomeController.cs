@@ -55,6 +55,9 @@ namespace MyBlog_Clients_MVC.Controllers
             ViewBag.NewestPosts = newestPosts;  
             ViewBag.CategoriesList = categoriesList;
 
+            string CategoryListJson = JsonConvert.SerializeObject(categoriesList);
+            HttpContext.Session.SetString("CategoryListJson", CategoryListJson);
+
             return View();
         }
 
@@ -67,6 +70,12 @@ namespace MyBlog_Clients_MVC.Controllers
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+
+        public IActionResult Logout()
+        {
+            HttpContext.Session.Clear();
+            return RedirectToAction("Index","Home");
         }
     }
 }

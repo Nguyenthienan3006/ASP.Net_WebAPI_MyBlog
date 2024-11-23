@@ -26,7 +26,21 @@ namespace MyBlog_Clients_MVC.Controllers
         {
 
             var token = HttpContext.Session.GetString("AccessToken");
-            if(token == null)
+
+            //lấy ra category list
+            string CategoryListJson = HttpContext.Session.GetString("CategoryListJson");
+
+
+            if (!string.IsNullOrEmpty(CategoryListJson))
+            {
+                // Giải mã JSON thành danh sách
+                List<CategoryDto> CategoriesList = JsonConvert.DeserializeObject<List<CategoryDto>>(CategoryListJson);
+
+                ViewBag.CategoriesList = CategoriesList;
+            }
+
+            //kiểm tra xem đã log in chưa
+            if (token == null)
             {
                 _notyf.Warning("Sign In to see post detail.");
                 return RedirectToAction("Index", "Home");
