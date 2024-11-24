@@ -18,8 +18,8 @@ build_property.GenerateRazorMetadataSourceChecksumAttributes =
 build_property.MSBuildProjectDirectory = C:\Users\admin\Desktop\WorkSpace\MyProject\MyBlog-Project\ASP.Net_WebAPI_MyBlog\WebAPI_MyBlog\MyBlog_Clients_MVC
 build_property._RazorSourceGeneratorDebug = 
 
-[C:/Users/admin/Desktop/WorkSpace/MyProject/MyBlog-Project/ASP.Net_WebAPI_MyBlog/WebAPI_MyBlog/MyBlog_Clients_MVC/Views/AdminPost/CreatePost.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5Qb3N0XENyZWF0ZVBvc3QuY3NodG1s
+[C:/Users/admin/Desktop/WorkSpace/MyProject/MyBlog-Project/ASP.Net_WebAPI_MyBlog/WebAPI_MyBlog/MyBlog_Clients_MVC/Views/Admin/CreatePost.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cQ3JlYXRlUG9zdC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/admin/Desktop/WorkSpace/MyProject/MyBlog-Project/ASP.Net_WebAPI_MyBlog/WebAPI_MyBlog/MyBlog_Clients_MVC/Views/Admin/Index.cshtml]
