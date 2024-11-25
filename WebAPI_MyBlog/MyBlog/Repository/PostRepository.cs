@@ -42,7 +42,13 @@ namespace MyBlog.Repository
 
         public bool DeletePost(Post post)
         {
+            //xóa comments của post
             var postToDelete = _context.Comments.Where(comment => comment.PostId == post.Id).ToList();
+
+            //Xóa post id trong bảng post category
+            var postCate = _context.PostCategories.Where(pc => pc.PostId == post.Id).FirstOrDefault();
+
+            _context.PostCategories.Remove(postCate);
 
             foreach (var comment in postToDelete)
             {

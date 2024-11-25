@@ -150,6 +150,7 @@ namespace MyBlog_Clients_MVC.Controllers.Admin
             }
         }
 
+        [HttpGet]
         public async Task<IActionResult> DeletePost(int postId)
         {
             //Lấy ra token từ session
@@ -159,12 +160,81 @@ namespace MyBlog_Clients_MVC.Controllers.Admin
             if (token == null)
             {
                 _notyf.Warning("Sign In to Delete Post");
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Login", "Auth");
             }
 
+            //Cấu hình yêu cầu HTTP Delete tới API
+            var request = new HttpRequestMessage(HttpMethod.Delete, $"https://localhost:7233/api/Post/{postId}");
+            request.Headers.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
 
-            return View();
+
+            try
+            {
+                //Gửi yêu cầu đến API
+                var response = await _client.SendAsync(request);
+
+                //Xử lý API trả về
+                if (response.StatusCode == System.Net.HttpStatusCode.OK)
+                {
+                    _notyf.Success("Delete Successfully!");
+                    return RedirectToAction("Index", "Admin");
+                }
+                if (response.StatusCode == System.Net.HttpStatusCode.BadRequest)
+                {
+                    _notyf.Warning("Invalid input data!");
+                    return RedirectToAction("Index", "Admin");
+                }
+                else if (response.StatusCode == System.Net.HttpStatusCode.NotFound)
+                {
+                    _notyf.Warning("Post not found!");
+                    return RedirectToAction("Index", "Admin");
+                }
+                else
+                {
+                    _notyf.Error("Something went wrong!");
+                    return RedirectToAction("Index", "Admin");
+                }
+            }
+            catch (Exception ex)
+            {
+                _notyf.Error($"{ex.Message}");
+                return RedirectToAction("Index", "Admin");
+            }
+
         }
+
+        //[HttpGet]
+        //public async Task<IActionResult> EditPost(int postId, string Title, string Content, int CategoryId)
+        //{
+        //    //Lấy ra token từ session
+        //    var token = HttpContext.Session.GetString("AccessToken");
+
+        //    //kiểm tra xem đã log in chưa
+        //    if (token == null)
+        //    {
+        //        _notyf.Warning("Sign In to Delete Post");
+        //        return RedirectToAction("Login", "Auth");
+        //    }
+
+        //    //Cấu hình http put tới API
+        //    var request = new HttpRequestMessage(HttpMethod.Put, $"https://localhost:7233/api/Post/8");
+
+        //    try
+        //    {
+
+        //        //Gửi yêu cầu đến API
+
+        //        //Xử lý API trả về
+
+
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        _notyf.Error($"{ex.Message}");
+        //        return RedirectToAction("Index", "Admin");
+        //    }
+
+        //}
 
     }
 }
